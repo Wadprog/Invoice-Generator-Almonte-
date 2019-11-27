@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <!--Adding react and React dom-->
+    <script
+      crossorigin
+      src="https://unpkg.com/react@16/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"
+    ></script>
+    <!-- Adding Babel Stand alone -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.24.0/babel.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <title>Create invoice</title>
+
+    <!-- Adding bootstrap -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+
+    <!-- adding font Awesome-->
+    <link
+      href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      rel="stylesheet"
+    />
+    <style>
+    .border-dotted{
+      border-style: dotted;
+      }
+    </style>
+  </head>
+
+  <body>
+   
+          <a onclick='window.open("<?!=ScriptApp.getService().getUrl() ?>?v=invoices")'>
+          
+            <i className="fa fa-arrow-left"></i>
+            Facturas
+          </a>
+       
+    <div id="root"></div>
+    <?!=include('ScrReactInvoiceCreate')?>
+    
+  </body>
+</html>

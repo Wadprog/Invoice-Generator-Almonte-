@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+      <!-- Adding bootstrap --> 
+  
+ <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    
+ <!-- adding font Awesome--> 
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  </head>
+  <body>
+  <div class="mt-5 container justify-content-center">
+  
+  <div class="card" >
+    <div class="card-header">
+     Nuevo Usuario
+    </div>
+    <form onSubmit="addNewUser()" class="px-3 py-3">
+    
+    <div class="form-group">
+      <label for="name">Nombre</label>
+      <input type="text" class="form-control" id="name" placeholder="Fulana'('o')'">
+    </div>
+    
+    
+    <div class="form-group">
+    <label for="email">Appellido</label>
+    <input type="text" class="form-control" id="lastname" placeholder="tal">
+    </div>
+    <div class="form-group">
+    <label for="tel">Telefono</label>
+    <input type="text" class="form-control" id="tel" placeholder="809-300-0000">
+    </div>
+    
+    <div class="form-group">
+    <label for="email">Correo</label>
+    <input type="text" class="form-control" id="email" placeholder="fulana@algo.com">
+    </div>
+    <div class="form-group">
+    <label for="picture">Enlace de foto en DropBox</label>
+    <input type="text" class="form-control" id="picture" placeholder="https://www.dropbox.com/s/113klys2lf29z45/meinair.jpg?raw=1x">
+    </div>
+    <div class="form-group">
+    <label for="categoria">Categoria</label>
+    <select id="categoria">
+    <option>Usuario</option>
+    <option>Admin</option>
+    
+    </select>
+    </div>
+    <button  id="btn-" type="submit" class="btn btn-primary">Registrar</button>
+</form>
+<div class="card-footer">
+<a href="<?!=ScriptApp.getService().getUrl() ?>?v=users">
+<i class="fa fa-arrow-left"></i>
+</a>
+</div>
+ </div>
+ 
+  </div>
+<script>  
+ function preventFormSubmit() {
+        var forms = document.querySelectorAll('form');
+        for (var i = 0; i < forms.length; i++) {
+          forms[i].addEventListener('submit', function(event) {
+            event.preventDefault();
+          });
+        }
+      }
+  window.addEventListener('load', preventFormSubmit);
+  
+  function addNewUser(){
+    var name=document.getElementById('name').value;
+    var lastname=document.getElementById('lastname').value;
+    var email= document.getElementById('email').value;
+    var telephone= document.getElementById('tel').value;
+    var picture= document.getElementById('picture').value;
+    var categoria=document.getElementById('categoria').value;
+    
+    //Checking that the required fields are not Empty
+    
+    picture =setpict(picture); 
+    
+    if( name!=""&& lastname!=""&& telephone!="" && categoria!=""){
+    google.script.run
+    .withFailureHandler(onError)
+    .withSuccessHandler(afterAddedClient).setUser([email,name, lastname, telephone, picture,categoria])
+   
+    }
+    else
+    alert('Favor llenar el formulario completamente Fofo no es requirido'); 
+    }
+    function setpict(pict){
+    if(pict=="")return "https://i.pravatar.cc/100"
+    return pict
+    }
+  function onError(e){
+  alert(' ERROR: PCSG Problemas con los Servidores de Google intenta mas tarde'+ e); 
+  }
+  function afterAddedClient(e){
+    window.open("<?!=ScriptApp.getService().getUrl() ?>?v=users")
+  }
+  </script>
+
+  
+  
+  </body>
+  
+  
+  
+</html>
+
+

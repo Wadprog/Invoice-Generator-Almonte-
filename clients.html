@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<base target="_top">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Almonte | Dashboard</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Bootstrap 3.3.7 -->
+  <?!=include('cssBootstrap');?>
+  <!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- Theme style -->
+   <?!=include('cssTheme');?>
+ <!-- Skin style -->
+   <?!=include('cssSkin');?>
+  <!-- Google Font -->
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+</head>
+
+
+<body class="hold-transition skin-blue sidebar-mini" style="position: relative;">
+  <div class="wrapper" style="position: relative;">
+    
+  <?!=include('head');?>
+  
+  
+    <!-- Left side column. contains the logo and sidebar -->
+  <aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+      <!-- Sidebar user panel -->
+ 
+      
+      
+      <!-- sidebar menu: : style can be found in sidebar.less -->
+      <ul class="sidebar-menu" data-widget="tree">
+        <li class="header">NAVIGATION Principal</li>
+        <li class=" active treeview menu-open">
+          <a href="#">
+            <i class="fa fa-user"></i> <span>Usuarios</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+          <? var users=getAllUsers();?>
+          <?for(var f=0; f<users.length-1;f++){?>
+            <li>
+             <a href="#">
+             <span><?=users[f][2]?></span>             
+              
+            </a>
+            </li>
+            <?}?>
+            <li>
+            <hr/>
+            <a
+            style=" margin:2px 7px 7px 2px;"
+            class="btn btn-sm btn-info btn-flat "
+            href="<?!=ScriptApp.getService().getUrl() ?>?v=users"
+            >
+            Ver todos
+            </a>
+            </li>
+
+          </ul>
+        </li>
+      
+
+        <li class=" active treeview menu-open">  
+           <a href="#">
+            <i class="fa fa-exchange"></i> <span>Transactiones</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+           <li>
+            <a href="<?!=ScriptApp.getService().getUrl() ?>?v=invoices">
+              <i class="fa fa-dollar"></i> <span>Ventas</span>
+            </a>
+          </li>
+        <li>
+          <a href="<?!=ScriptApp.getService().getUrl() ?>?v=services">
+            <i class="fa fa-money"></i> <span>Servicios</span>
+          </a>
+        </li>
+        <li>
+          <a href="<?!=ScriptApp.getService().getUrl() ?>?v=clients">
+            <i class="fa fa-th"></i> <span>Clientes</span>
+          </a>
+        </li>
+        <li>
+          <a href="<?!=ScriptApp.getService().getUrl() ?>?v=comprobantecreate">
+            <i class="fa fa-file"></i> <span>Nuevo Comprobante</span>
+            
+          </a>
+        </li>
+        </ul>
+        </li>
+        
+        
+        <li class=" active treeview menu-open">  
+           <a href="#">
+            <i class="fa fa-book"></i> <span>Tutoriales</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+        <li>
+          <a href="#comousar"><i class="fa fa-book"></i> 
+               <span>Como Usar</span></a>
+        </li>
+        <li>
+          <a href="#comousar"><i class="fa fa-book"></i> 
+               <span>Crear Nuevo Recibo</span></a>
+        </li>
+        <li>
+          <a href="#comousar"><i class="fa fa-book"></i> 
+               <span>Agregar algo nuevo</span></a>
+        </li>
+                <li>
+          <a href="#comousar"><i class="fa fa-book"></i> 
+               <span>Modificar datos</span></a>
+        </li>
+        </ul>
+        </li>
+              
+        
+        
+      </ul>
+    </section>
+    <!-- /.sidebar -->
+    
+  </aside>
+  
+  <!-- Content Wrapper. Contains page content -->
+   <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+      <a
+       href="<?!=ScriptApp.getService().getUrl() ?>"
+       >
+        Manejo de clientes
+        </a>
+      </h1>
+      <h6><?=new Date()?>, </h6>
+      Clientes
+      
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+    
+    
+      <!-- Button -->
+   
+        
+      
+
+          <!-- TABLE: LATEST ORDERS -->
+
+
+        <div class="col-md-12">
+         <div class="box box-info">
+            <div class="box-header with-border">
+              <a 
+              href="<?!=ScriptApp.getService().getUrl() ?>?v=clientcreate" 
+              style=" margin:5px 2px 5px 10px;"
+              class="btn btn-sm btn-info btn-flat pull-left">
+              Nuevo Cliente</a>
+
+
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <div class="table-responsive">
+                <table class="table no-margin">
+                  <thead>
+                  <tr>
+                   
+                   
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Correo</th>
+                    <th>Telefono</th>
+                    <th>Direccion</th>
+                    <th>Actiones</th>
+                  </tr>
+                  </thead>
+                  
+                  <tbody>
+                    <?data=getAllClients().reverse();?> 
+                 <? for(i=1; i<data.length-1; i++) {?>
+                  <tr>
+                    <td><a href="#">AL400V<?=data[i][0]?>W</a></td>
+                    <td><?=data[i][1]?></td>
+                    <td><span > <?=data[i][2]?></span></td>
+                    <td>
+                      <span><?=data[i][3]?></span>
+                    </td>
+                    
+                    <td>
+                      <span><?=data[i][4]?></span>
+                    </td>
+                    <td>
+                      <span>
+                      <button onclick="editClient(this)"class="label label-warning" id="<?=data[i][0]?>">Editar</button>
+                      <button onclick="deleteClient(this)"class="label label-danger" id="<?=data[i][0]?>">Borrar</button>
+                      </span>
+                    </td>
+                  </tr>
+                   <? }?>
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.table-responsive -->
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer clearfix">
+              
+              
+            </div>
+            <!-- /.box-footer -->
+          </div>
+        </div>
+        <!-- /.col -->
+      
+      <!-- /.row -->
+    </section>
+    
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  <?!=include('footer');?>
+ 
+</div>
+
+<!-- ./wrapper -->
+<script>
+
+function deleteClient(e){
+google.script.run
+    .withFailureHandler(onError)
+    .withSuccessHandler(afterDeletingClient).deleteClientByid(e.id)
+}
+function editClient(e){
+google.script.run
+    .withFailureHandler(onError)
+    .withSuccessHandler(afterPassingClient).setClientToedit(e.id)
+}
+
+  function onError(e){
+  alert(' ERROR: PCSG Problemas con los Servidores de Google intenta mas tarde'+ e); 
+  }
+  function afterPassingClient(){
+    window.open("<?!=ScriptApp.getService().getUrl() ?>?v=clienteedit" )
+  }
+  
+    function afterDeletingClient(){
+   window.open("<?!=ScriptApp.getService().getUrl() ?>?v=clients" )
+  }
+</script>
+<!-- jQuery 3 -->
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+
+<!-- Bootstrap 3.3.7 -->
+  <?!=include('jsBootstrap');?>
+<!-- AdminLTE App -->
+ <?!=include('jsAdmin');?>
+
+
+</body>
+</html>
