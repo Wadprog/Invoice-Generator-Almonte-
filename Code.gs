@@ -21,7 +21,7 @@ return HtmlService.createTemplateFromFile(pageName).evaluate();
 }
 //***************************************************************************************
 function getAllInvoices(){
-return getWholeSheet('Invoices');
+return getWholeSheet('Invoices',true);
 }
 //***************************************************************************************
 function getAllServices(){
@@ -38,7 +38,7 @@ return serviceOBJ;
 }
 //***************************************************************************************
 function getAllClients(){
-return getWholeSheet('Clients');
+return getWholeSheet('Clients',false);
 
 }
 //***************************************************************************************
@@ -61,16 +61,18 @@ return clientsOBJ;
 }
 //***************************************************************************************
 function getAllUsers(){
-return getWholeSheet('Users');
+return getWholeSheet('Users',false);
 }
 //***************************************************************************************
 
-function getWholeSheet(shName){
+function getWholeSheet(shName,withDeleted){
 var sheet= SpreadsheetApp.getActive();
 var sheetName=sheet.getSheetByName(shName);
 var lastRow=sheetName.getLastRow();
 var lastColumn=sheetName.getLastColumn();
 var data=sheetName.getRange(2,1,lastRow,lastColumn).getValues();
+if(withDeleted)
+return data; 
 // Removing all fileds marked as deleted
 return removeDeleted(data);
 }
@@ -112,7 +114,7 @@ return getLastIdFromSheet('Invoices');
 } 
 //***************************************************************************************
 function getRangeById(shName,id){
-var data= getWholeSheet(shName);
+var data= getWholeSheet(shName,true);
 for(var i=0; i<data.length;i++)
   if(data[i][0]==id)
    return data[i];
@@ -243,10 +245,13 @@ for(var i =0; i<servicesArray.length;i++){
    var serviceId= servicesArray[i].split('|')[0];
    
    var servicePrice=parseInt(servicesArray[i].split('-')[1]);
-   var serviceAmount=parseInt(servicesArray[i].split('|')[1]);
+   var serviceAmountString=servicesArray[i].split('|')[1];
+   var end= serviceAmountString.indexOf('-'); 
+   var s=serviceAmountString.substring(0,end);
+   var serviceAmount=parseFloat(s);
    var e=servicePrice+1;
  
-   Logger.log("service Amount  is : " + servicePrice+ "serviceAmount")
+   Logger.log("\n\nn\n\n\nservice Amount  is : " +serviceAmount + "\n\nn\n we add"+ servicesArray[i].split('|')[1])
    var serviceRange=getServicesById(serviceId);
    Obj.push({id:serviceRange[0], name:serviceRange[1],price:servicePrice,amount:serviceAmount,unidad:serviceRange[4]})
 
@@ -321,13 +326,20 @@ setDataToSheet('Invoices', data);
 }
 //***************************************************************************************
 function setComprobantes(list){
+var init= parseInt(list.split('-')[0]); 
+var final=parseInt(list.split('-')[1]); 
+var arra= new Array(); 
+arra[0]=init; 
+setDataToSheet("Comprobantes",arra);
+for (var i=1; i<final-init+1; i++){ 
+var array= new Array(); 
+array[0]=init+i; 
+setDataToSheet("Comprobantes",array);
+}
 
-for(var i=0; i<list.length; i++){
-var data=[];
-data[0]=list[i]
-setDataToSheet('Comprobantes', data)
 }
-}
+//***************************************************************************************
+
 //***************************************************************************************
 function setDataToSheet(shName, data){
   
@@ -480,5 +492,3 @@ editDataById('Services', data);
 function setUserToEdit(id){
 setDataToEdit(id, 'Users','TempUsers'); 
 }
-
-

@@ -22,12 +22,12 @@
     
     <div class="form-group">
       <label for="list">Rango Inicio</label>
-      <input type="text" class="form-control" id="list" placeholder="Entra asi: 999558,999559,999560">
+      <input type="text" class="form-control" id="list" placeholder="Entra asi: 999550">
     </div>
     
     <div class="form-group">
       <label for="list">Rango Final</label>
-      <input type="text" class="form-control" id="list" placeholder="Entra asi: 999558,999559,999560">
+      <input type="text" class="form-control" id="list2" placeholder="Entra asi: 999559">
     </div>
     
     <button  id="btn-" type="submit" class="btn btn-primary">Registrar comprobantes</button>
@@ -55,24 +55,26 @@
   
   function addNewUser(){
   var list= document.getElementById('list').value;
-    console.log(list) 
-    
-    if( list!=""){
-    google.script.run
+  var list2= document.getElementById('list2').value;
+  var range =""; 
+  
+  if(list!=""|| list2!=""){
+  if(list2>=list){
+   range= list +'-'+list2;
+   google.script.run
     .withFailureHandler(onError)
-    .withSuccessHandler(afterAddedList).setComprobantes(list.split(','))
+    .withSuccessHandler(afterAddedList).setComprobantes(range)
    
-    }
-    else{
-    alert('Pasar por meno un comprobante'); 
-    }
-   
-    }
+   }
+  else alert("El inicio debe ser menoro igual que el final de la lista"); }
+  else alert("Favor entrar valor por el inicio y el final"); 
+  
+}
   function onError(e){
   alert(' ERROR: PCSG Problemas con los Servidores de Google intenta mas tarde'+ e); 
   }
   function afterAddedList(e){
-    window.open("<?!=ScriptApp.getService().getUrl();?>");
+   window.open("<?!=ScriptApp.getService().getUrl();?>");
   }
   </script>
 
